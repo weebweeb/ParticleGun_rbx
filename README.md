@@ -1,12 +1,12 @@
-#Abstract
+# Abstract
  A modular, open-source, Proof-of-concept roblox projectile system utilizing ParticleEmitters to visualize the projectile. 
  Scales easily with Roblox's graphical settings.
  
-#Installation
+# Installation
  1. Open model located in /rbx with Roblox Studio
  2. Place files in the appropriately named locations according to the name of the folder they were in
 
-#Use
+# Use
 Using this module only requires a couple things:
 1. 2 Sound instances, "Fire" and "Reload" located directly under the tool. These sounds will be played respectively when it is "fired" and "reloaded"
 2. A single script instance to reference the main module
@@ -20,7 +20,7 @@ Using this module only requires a couple things:
 6. A BasePart within your tool named specifically "Handle". This is the basis for which the weapon will be oriented.
  Please refer to the module reference as well as the example tool located under StarterPack and Assets/Tools for further information
 
-#Instances
+# Instances
 *Variant* initGun(*Object* parent, *String* guntype, *Bool* auto, *Number* maxammo, *Number* Ammo, *Number* stored, *Int* firerate, *Int* cooldown, *Bool* burst, *Variant* bulletspread, *Bool* shotgun)
 Initializes and runs the tool, runs on instantiation. Called by `require(game.ReplicatedStorage.Assets.Modules.GunHandlerModule)`
 - `parent`: should be a Tool Instance
