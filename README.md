@@ -21,7 +21,7 @@ Using this module only requires a couple things:
  Please refer to the module reference as well as the example tool located under StarterPack and Assets/Tools for further information
 
 # Instances
-*Variant* initGun(*Object* parent, *String* guntype, *Bool* auto, *Number* maxammo, *Number* Ammo, *Number* stored, *Int* firerate, *Int* cooldown, *Bool* burst, *Variant* bulletspread, *Bool* shotgun)
+*Variant* `initGun(*Object* parent, *String* guntype, *Bool* auto, *Number* maxammo, *Number* Ammo, *Number* stored, *Int* firerate, *Int* cooldown, *Bool* burst, *Variant* bulletspread, *Bool* shotgun)`
 Initializes and runs the tool, runs on instantiation. Called by `require(game.ReplicatedStorage.Assets.Modules.GunHandlerModule)`
 - `parent`: should be a Tool Instance
 - `guntype`: This is used for referencing animations and damage values. This is usually the name of the weapon as defined under Use (Step 4 and 5). But you can set it to anything to set up a single animation and single damage values for multiple tools.
