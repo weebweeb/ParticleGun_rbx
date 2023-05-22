@@ -4,7 +4,7 @@
  
 # Installation
  1. Open model located in /rbx with Roblox Studio
- 2. Place files in the appropriately named locations according to the name of the folder they were in
+ 2. Place objects withim the folders into appropriately named locations according to the name of the folder they were in
 
 # Use
 Using this module only requires a couple things:
