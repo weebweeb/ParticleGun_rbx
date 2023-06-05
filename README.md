@@ -19,10 +19,11 @@ Using this module only requires a couple things:
  - Reloading, named "[name of your weapon]Reload"
 6. A BasePart within your tool named specifically "Handle". This is the basis for which the weapon will be oriented.
  Please refer to the module reference as well as the example tool located under StarterPack and Assets/Tools for further information
+Note: This module does not handle "attachments" or "weld" Roblox objects, so be sure to take care of that yourself if you need to.
 
 # Instances
 *Variant* `initGun(*Object* parent, *String* guntype, *Bool* auto, *Number* maxammo, *Number* Ammo, *Number* stored, *Int* firerate, *Int* cooldown, *Bool* burst, *Variant* bulletspread, *Bool* shotgun)`
-Initializes and runs the tool, runs on instantiation. Called by `require(game.ReplicatedStorage.Assets.Modules.GunHandlerModule)`
+Initializes and runs the tool, runs on instantiation. Returned by `require(game.ReplicatedStorage.Assets.Modules.GunHandlerModule)`
 - `parent`: should be a Tool Instance
 - `guntype`: This is used for referencing animations and damage values. This is usually the name of the weapon as defined under Use (Step 4 and 5). But you can set it to anything to set up a single animation and single damage values for multiple tools.
 - `auto`: This should be either `true` or `false`. Configures whether the tool fires in "full auto" or "single fire"
