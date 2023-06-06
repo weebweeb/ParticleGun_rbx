@@ -44,7 +44,7 @@ function step()
 		dthTotal = dthTotal + dth;
 		theta = theta + dth;
 	end
-	script.Parent.CamRecoil.Value = Vector3.new(dpTotal, dthTotal, 0)
+	game.Players.LocalPlayer.Character.LocalFX.CamRecoil.Value = Vector3.new(dpTotal, dthTotal, 0)
 end
 
 recoiler.init = function()
