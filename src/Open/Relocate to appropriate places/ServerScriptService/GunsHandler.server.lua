@@ -26,7 +26,7 @@ function makesparks(where)
 	makesound(soundtable.ricochet[math.random(1,#soundtable.ricochet)], cl)
 	wait(0.1)
 	for i, v in pairs(cl:GetChildren()) do
-	v.Enabled = false
+		v.Enabled = false
 	end
 	game.Debris:AddItem(cl, 1)
 	
@@ -63,117 +63,93 @@ local function cone(num, cone, shotty)
 	return num
 end
 
+function bulletparticlefx(where, ray, dist, shotgun, Rate)
+	for i = 1, 6, 1 do
+		if i == 1 then
+			where.BarrelParticle["Bullet"].Acceleration = ray.Direction
+			where.BarrelParticle.Bullet.Lifetime = dist
 
-function replicategunfire(player, where, unitRay, Rate, bullets, spread, shotgun , right, slowmo)
-	bullets = bullets or 1
-	spread = 3
-	
-	pcall(function()
-	for i , v in pairs(workspace.NPC:GetChildren()) do
-		if v:FindFirstChild("HumanoidRootPart") ~= nil then
-		local mag = (v.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).magnitude
-		if mag < 200 then
-			if v.NPCData.Panic.Value == false then
-			v.NPCData.Panic.Value = true
-			TagService:TempTag("ObjectValue", v.NPCData, "Target", player.Character)
-			--wantedModule:AddWantedLevel(player, 1)
-			end
-		end
 		else
-			v:Destroy()
+			where.BarrelParticle["Bullet"..i].Acceleration = ray.Direction
+			where.BarrelParticle["Bullet"..i].Lifetime = dist
 		end
 	end
-	end)
-		ti = 0 - (spread + 0.3)
+	for i = 1, 6, 1	 do
+		if i == 1 then
+			where.BarrelParticle.ParticleEmitter.Enabled = true
+			where.BarrelParticle.PointLight.Enabled = true
+			where.BarrelParticle.Bullet.Enabled = true
+
+		else
+			where.BarrelParticle["Bullet"..i].Enabled = true
+		end
+	end
+	
+	if shotgun ~= true then
+		if Rate ~= nil then
+			wait(Rate - 0.01)
+		else
+			wait(0.15)
+		end
+	else wait(0.05)
+	end
+	for i = 1, 6, 1	 do
+		if i == 1 then
+			where.BarrelParticle.ParticleEmitter.Enabled = false
+			where.BarrelParticle.PointLight.Enabled = false
+			where.BarrelParticle.Bullet.Enabled = false
+
+		else
+			where.BarrelParticle["Bullet"..i].Enabled = false
+		end
+	end
+end
+
+
+function replicategunfire(player, where, unitRay, Rate, bullets, spread, shotgun , right)
+	bullets = bullets or 1
+	spread = 3
+
+	ti = 0 - (spread + 0.3)
 	for i = 1, bullets do
 		coroutine.wrap(function()
 		
 		if Rate > 0 and i > 1 and shotgun == false and bullets > 1 then
-		wait(Rate*(i-1))
-			end
-			if where:FindFirstChild("Fire") then
-				if slowmo == true then
-				where.Fire.PlaybackSpeed = (math.random(40,50))/100
-				else
-				where.Fire.PlaybackSpeed = (math.random(97,102))/100
-
-				end
-		where.Fire:Play()
-	end
-		local length = 2000
-   -- local right = Vector3.new(1,0,1)- unitRay.Direction
-
-	local ray = Ray.new(where.Parent.Head.Position, (unitRay.Direction  + (right* cone(2, spread, shotgun))) * length)
-	local findparts, hitposition = workspace:FindPartOnRayWithIgnoreList(ray, player.Character:GetDescendants())
-	
-	local distt = (player.Character.HumanoidRootPart.Position - hitposition).Magnitude
-	local dist = NumberRange.new(distt)
-			if Rate then
-				if shotgun then
-					changeRate(Rate * 100, "Bullet", where.BarrelParticle)
-				else
-					changeRate(2/Rate, "Bullet", where.BarrelParticle)
-				end
-			end
-			if slowmo == true then
-				changeRate(where.BarrelParticle.Bullet.Rate/10, "Bullet", where.BarrelParticle)
-			end
-	
-	where.BarrelParticle.Bullet.Acceleration = ray.Direction 
-	where.BarrelParticle.Bullet2.Acceleration = ray.Direction
-	where.BarrelParticle.Bullet3.Acceleration = ray.Direction
-	where.BarrelParticle.Bullet4.Acceleration = ray.Direction
-	where.BarrelParticle.Bullet5.Acceleration = ray.Direction
-	where.BarrelParticle.Bullet6.Acceleration = ray.Direction 
-	where.BarrelParticle.Bullet.Lifetime = dist
-	where.BarrelParticle.Bullet2.Lifetime = dist
-	where.BarrelParticle.Bullet3.Lifetime = dist
-	where.BarrelParticle.Bullet4.Lifetime = dist
-	where.BarrelParticle.Bullet5.Lifetime = dist
-	where.BarrelParticle.Bullet6.Lifetime = dist
-	
+				wait(Rate*(i-1))
+		end
 			
-	where.BarrelParticle.ParticleEmitter.Enabled = true
-			where.BarrelParticle.PointLight.Enabled = true
-			where.BarrelParticle.Bullet.Enabled = true
-			where.BarrelParticle.Bullet2.Enabled = true
-			where.BarrelParticle.Bullet3.Enabled = true
-			where.BarrelParticle.Bullet4.Enabled = true
-			where.BarrelParticle.Bullet5.Enabled = true
-		where.BarrelParticle.Bullet6.Enabled = true
-			if shotgun ~= true then
-			if Rate ~= nil then
-				wait(Rate - 0.01)
+		if where:FindFirstChild("Fire") then
+				where.Fire.PlaybackSpeed = (math.random(97,102))/100
+				where.Fire:Play()
+		end
+			
+		local length = 2000
+
+		local ray = Ray.new(where.Parent.Head.Position, (unitRay.Direction  + (right* cone(2, spread, shotgun))) * length)
+		local findparts, hitposition = workspace:FindPartOnRayWithIgnoreList(ray, player.Character:GetDescendants())
+	
+		local distt = (player.Character.HumanoidRootPart.Position - hitposition).Magnitude
+		local dist = NumberRange.new(distt)
+			
+		if Rate then
+			if shotgun then
+				changeRate(Rate * 100, "Bullet", where.BarrelParticle)
 			else
-			wait(0.15)
+				changeRate(2/Rate, "Bullet", where.BarrelParticle)
 			end
-			else wait(0.05)
+		end
+		bulletparticlefx(where, ray, dist)
+
+		if hitposition then
+			if findparts and findparts.Parent:FindFirstChild("Humanoid") or findparts and findparts.Parent.Parent:FindFirstChild("Humanoid") then
+				makeblood(hitposition)
+				else
+				makesparks(hitposition)
 			end
-			where.BarrelParticle.Bullet.Enabled = false
-			where.BarrelParticle.Bullet2.Enabled = false
-			where.BarrelParticle.Bullet3.Enabled = false
-			where.BarrelParticle.Bullet4.Enabled = false
-			where.BarrelParticle.Bullet5.Enabled = false
-			where.BarrelParticle.Bullet6.Enabled = false
-			where.BarrelParticle.ParticleEmitter.Enabled = false
-			where.BarrelParticle.PointLight.Enabled = false
-	if hitposition then
-		if findparts and findparts.Parent:FindFirstChild("Humanoid") or findparts and findparts.Parent.Parent:FindFirstChild("Humanoid") then
-			makeblood(hitposition)
-			else
-			makesparks(hitposition)
-			end
-			end
+		end
 			
 			
 			end)()
-	end
-	if shotgun == true then
-			if Rate ~= nil then
-				wait(Rate - 0.01)
-			else
-			wait(0.15)
-			end
 	end
 end
 
@@ -183,143 +159,78 @@ end
 function gungun(player, where, unitRay, Rate, bullets, spread, shotgun, right)
 	--bullets = bullets or 1
 	--spread = spread or math.random(1,3)
-	pcall(function()
-	for i , v in pairs(workspace.NPC:GetChildren()) do
-		if v:FindFirstChild("HumanoidRootPart") ~= nil then
-		local mag = (v.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).magnitude
-		if mag < 200 then
-			if v.NPCData.Panic.Value == false then
-			v.NPCData.Panic.Value = true
-			TagService:TempTag("ObjectValue", v.NPCData, "Target", player.Character)
-			--wantedModule:AddWantedLevel(player, 1)
-			end
-		end
-		else
-			v:Destroy()
-		end
-	end
-	end)
 		ti = 0 - (spread + 0.3)
 	for i = 1, bullets do
-		--wait(1/60)
 		coroutine.wrap(function()
 		
-		if Rate > 0 and i > 1 and shotgun == false and bullets > 1 then
-		wait(Rate*(i-1))
+			if Rate > 0 and i > 1 and shotgun == false and bullets > 1 then
+				wait(Rate*(i-1))
 			end
-		if where:FindFirstChild("Fire") then
-		where.Fire.PlaybackSpeed = (math.random(97,102))/100
-		where.Fire:Play()
-	end
-		local length = 2000
-   -- local right = Vector3.new(1,0,1)- unitRay.Direction
-
-	local ray = Ray.new(where.Parent.Head.Position, (unitRay.Direction  + (right* cone(2, spread, shotgun))) * length)
-	local findparts, hitposition = workspace:FindPartOnRayWithIgnoreList(ray, player.Character:GetDescendants())
+			if where:FindFirstChild("Fire") then
+				where.Fire.PlaybackSpeed = (math.random(97,102))/100
+				where.Fire:Play()
+			end
+			
+			local length = 2000
+			local ray = Ray.new(where.Parent.Head.Position, (unitRay.Direction  + (right* cone(2, spread, shotgun))) * length)
+			local findparts, hitposition = workspace:FindPartOnRayWithIgnoreList(ray, player.Character:GetDescendants())
 	
-	local distt = (player.Character.HumanoidRootPart.Position - hitposition).Magnitude
-	local dist = NumberRange.new(distt)
+			local distt = (player.Character.HumanoidRootPart.Position - hitposition).Magnitude
+			local dist = NumberRange.new(distt)
+			
 			if Rate then
 				if shotgun then
-		where.BarrelParticle.Bullet.Rate = Rate * 100
-		where.BarrelParticle.Bullet2.Rate = Rate * 100
-		where.BarrelParticle.Bullet3.Rate = Rate * 100
-		where.BarrelParticle.Bullet4.Rate = Rate * 100
-		where.BarrelParticle.Bullet5.Rate = Rate * 100
-		where.BarrelParticle.Bullet6.Rate = Rate * 100
+					changeRate(Rate * 100, "Bullet", where.BarrelParticle)
 				else
-		where.BarrelParticle.Bullet.Rate = 2/Rate
-		where.BarrelParticle.Bullet2.Rate = 2/Rate
-		where.BarrelParticle.Bullet3.Rate = 2/Rate
-		where.BarrelParticle.Bullet4.Rate = 2/Rate
-		where.BarrelParticle.Bullet5.Rate = 2/Rate
-					where.BarrelParticle.Bullet6.Rate = 2/Rate
-					end
-	
-	end
-	
-	where.BarrelParticle.Bullet.Acceleration = ray.Direction 
-	where.BarrelParticle.Bullet2.Acceleration = ray.Direction
-	where.BarrelParticle.Bullet3.Acceleration = ray.Direction
-	where.BarrelParticle.Bullet4.Acceleration = ray.Direction
-	where.BarrelParticle.Bullet5.Acceleration = ray.Direction
-	where.BarrelParticle.Bullet6.Acceleration = ray.Direction 
-	where.BarrelParticle.Bullet.Lifetime = dist
-	where.BarrelParticle.Bullet2.Lifetime = dist
-	where.BarrelParticle.Bullet3.Lifetime = dist
-	where.BarrelParticle.Bullet4.Lifetime = dist
-	where.BarrelParticle.Bullet5.Lifetime = dist
-	where.BarrelParticle.Bullet6.Lifetime = dist
-	
-			
-	where.BarrelParticle.ParticleEmitter.Enabled = true
-			where.BarrelParticle.PointLight.Enabled = true
-			where.BarrelParticle.Bullet.Enabled = true
-			where.BarrelParticle.Bullet2.Enabled = true
-			where.BarrelParticle.Bullet3.Enabled = true
-			where.BarrelParticle.Bullet4.Enabled = true
-			where.BarrelParticle.Bullet5.Enabled = true
-		where.BarrelParticle.Bullet6.Enabled = true
-			if shotgun ~= true then
-			if Rate ~= nil then
-				wait(Rate - 0.01)
-			else
-			wait(0.15)
+				changeRate(2/Rate, "Bullet", where.BarrelParticle)
+				end
 			end
-			else wait(0.05)
-			end
-			where.BarrelParticle.Bullet.Enabled = false
-			where.BarrelParticle.Bullet2.Enabled = false
-			where.BarrelParticle.Bullet3.Enabled = false
-			where.BarrelParticle.Bullet4.Enabled = false
-			where.BarrelParticle.Bullet5.Enabled = false
-			where.BarrelParticle.Bullet6.Enabled = false
-			where.BarrelParticle.ParticleEmitter.Enabled = false
-			where.BarrelParticle.PointLight.Enabled = false
-	if hitposition then
-		if findparts and findparts.Parent:FindFirstChild("Humanoid") or findparts and findparts.Parent.Parent:FindFirstChild("Humanoid") then
-			makeblood(hitposition)
-			else
-			makesparks(hitposition)
-			end
+	
+			bulletparticlefx(where, ray, dist)
+
+			if hitposition then
+				if findparts and findparts.Parent:FindFirstChild("Humanoid") or findparts and findparts.Parent.Parent:FindFirstChild("Humanoid") then
+					makeblood(hitposition)
+					else
+					makesparks(hitposition)
+				end
 			end
 			
 			if findparts then
-		--print(findparts:GetFullName())
 		
-		if findparts.Parent ~= nil and findparts.Parent:FindFirstChild("NPCData") then
-			--print("hit")
-			TagService:TempTag("ObjectValue", findparts.Parent.NPCData, "creator", player.Character)
-			findparts.Parent.NPCData.Health.Value = findparts.Parent.NPCData.Health.Value - damagetable[where.Name]*3
-		else
-			if findparts.Parent.Parent ~= nil and findparts.Parent.Parent:FindFirstChild("NPCData") then
-			--print("hit")
-			TagService:TempTag("ObjectValue", findparts.Parent.Parent.NPCData, "creator", player.Character)
+				if findparts.Parent ~= nil and findparts.Parent:FindFirstChild("NPCData") then
+					TagService:TempTag("ObjectValue", findparts.Parent.NPCData, "creator", player.Character)
+					findparts.Parent.NPCData.Health.Value = findparts.Parent.NPCData.Health.Value - damagetable[where.Name]*3
+			else
+				if findparts.Parent.Parent ~= nil and findparts.Parent.Parent:FindFirstChild("NPCData") then
+				TagService:TempTag("ObjectValue", findparts.Parent.Parent.NPCData, "creator", player.Character)
 
-			findparts.Parent.Parent.NPCData.Health.Value = findparts.Parent.Parent.NPCData.Health.Value - damagetable[where.Name]*3
-		end
-		end
+				findparts.Parent.Parent.NPCData.Health.Value = findparts.Parent.Parent.NPCData.Health.Value - damagetable[where.Name]*3
+				end
+			end
 		
-		if findparts.Parent:FindFirstChild("Humanoid") then
-			TagService:TempTag("ObjectValue", findparts.Parent.Humanoid, "creator", player.Character)
-					findparts.Parent.Humanoid:TakeDamage(damagetable[where.Name])
-		else
-		if findparts.Parent.Parent:FindFirstChild("Humanoid") then
-			TagService:TempTag("ObjectValue", findparts.Parent.Parent.Humanoid, "creator", player.Character)
-								findparts.Parent.Parent.Humanoid:TakeDamage(damagetable[where.Name])
+			if findparts.Parent:FindFirstChild("Humanoid") then
+				TagService:TempTag("ObjectValue", findparts.Parent.Humanoid, "creator", player.Character)
+				findparts.Parent.Humanoid:TakeDamage(damagetable[where.Name])
+				else
+					if findparts.Parent.Parent:FindFirstChild("Humanoid") then
+						TagService:TempTag("ObjectValue", findparts.Parent.Parent.Humanoid, "creator", player.Character)
+						findparts.Parent.Parent.Humanoid:TakeDamage(damagetable[where.Name])
 	
+						end
 					end
-			end
-			end
+				end
 			end)()
 	end
+	--[[
 	if shotgun == true then
-			if Rate ~= nil then
-				wait(Rate - 0.01)
+		if Rate ~= nil then
+			wait(Rate - 0.01)
 			else
 			wait(0.15)
-			end
+		end
 	end
+	--]]
 end
 
 game.ReplicatedStorage.ReplicateGun.Event:Connect(function(player, where, unitRay, Rate, bullets, spread, shotgun , right, slowmo)
