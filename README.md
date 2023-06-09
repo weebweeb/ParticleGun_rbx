@@ -26,12 +26,11 @@ Note: This module does not handle "attachments" or "weld" Roblox objects, so be 
 # Custom Camera Control
 This uses its own camera handler, which uses a third person camera mode which locks the cursor to the center of the screen. You can disable this camera control by disabling `CameraHandler` located in Data.StarterPlayer.StarterCharacterScripts.
 
-Note: This also disables camera recoil effects. To utilize your own, there is a way to do so:
-4 Values are located under Data.StarterPlayer.StarterCharacterScripts.LocalFX:
-`CamRecoil`: A CFrameValue Instance which will change its value according to recoil values from the main module. You can use this information for your own camera uses as rotation values.
-`CamShake`: A Vector3Value Instance which will change its value according to shake values from the main module. You can use this information for your own camera uses to shake the camera.
-`Recoil`: A BoolValue Instance indicating whether the camera should be experiencing recoil
-`Shaking`:A BoolValue Instance indicating whether the camera should be experiencing shake
+Note: This also disables camera recoil effects. To utilize your own, there is a way to do so located under Data.StarterPlayer.StarterCharacterScripts.LocalFX:
+- `CamRecoil`: A CFrameValue Instance which will change its value according to recoil values from the main module. You can use this information for your own camera uses as rotation values.
+- `CamShake`: A Vector3Value Instance which will change its value according to shake values from the main module. You can use this information for your own camera uses to shake the camera.
+- `Recoil`: A BoolValue Instance indicating whether the camera should be experiencing recoil
+- `Shaking`:A BoolValue Instance indicating whether the camera should be experiencing shake
 
 # Killfeed
 When a player inflicts damage on another player, an ObjectValue Instance named "creator" is placed in the damaged player's Humanoid, with the value referencing the character who caused the damage. This can be used as assistance in keeping track of player damages.
