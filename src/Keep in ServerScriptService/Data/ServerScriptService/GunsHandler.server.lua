@@ -1,6 +1,6 @@
 
 damagetable = {["Pistol"] = 10}
-TagService = require(game.ServerScriptService.TagService)
+TagService = require(game.ServerScriptService:WaitForChild("TagService"))
 --wantedModule = require(game.ReplicatedStorage.WantedModule)
 
 soundtable = {

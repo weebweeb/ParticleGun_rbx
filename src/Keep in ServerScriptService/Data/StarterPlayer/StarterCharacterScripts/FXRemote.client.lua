@@ -29,12 +29,3 @@ game.ReplicatedStorage.GreyOut.OnClientEvent:Connect(function(bool)
 		game.Lighting.ColorCorrection.Saturation = 0
 	end
 end)
-
-game.ReplicatedStorage.Cutscene.OnClientEvent:Connect(function(cframe)
-	if cframe ~= nil then
-		player.Character.CameraHandler.CustomCamera.Value = true
-		player.Character.CameraHandler.CustomCFrame.Value = cframe
-	else
-		player.Character.CameraHandler.CustomCamera.Value = false
-	end
-end)
