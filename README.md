@@ -37,7 +37,7 @@ When a player inflicts damage on another player, an `ObjectValue` Instance named
 
 
 # Instances
-*Variant* `initGun(*Object* parent, *String* guntype, *Bool* auto, *Number* maxammo, *Number* Ammo, *Number* stored, *Int* firerate, *Int* cooldown, *Number* burst, *Variant* bulletspread, *Bool* shotgun)`
+*Variant* `initGun(Object: parent, String: guntype, Bool: auto, Number: maxammo, Number: Ammo, Number: stored, Number: firerate, Number: cooldown, Number: burst, Number: bulletspread, Bool: shotgun)`
 Initializes and runs the tool, runs on instantiation. Returned by `require(game.ReplicatedStorage.Assets.Modules.GunHandlerModule)`
 Note: `game.ReplicatedStorage.Assets.Modules.GunHandlerModule`is the location `GunHandlerModule` will always be on server start. It's wise to wait for it to unpack there before referencing it. 
 - `parent`: should be a Tool Instance
