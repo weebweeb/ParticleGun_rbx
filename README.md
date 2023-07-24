@@ -97,9 +97,9 @@
    <p> A number in the format of Lua's [os.clock](https://create.roblox.com/docs/reference/engine/libraries/os#clock) indicating the last time the tool was fired.</p>
 
   `Object:` Animations
-    An object describing the animations that will play when a specific action is done.
+    <p> An object describing the animations that will play when a specific action is done. </p>
     <details>
-    <summary> Information </summary>
+    <summary> Properties </summary>
       `String:` Equip
        <p> A string in the format of an [Asset Link](https://create.roblox.com/docs/projects/assets) which would be an animation that would play while the weapon is equipped.</p>
       `String:` Fire
