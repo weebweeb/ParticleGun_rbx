@@ -1,55 +1,188 @@
 # Abstract
- A modular, open-source, Proof-of-concept roblox projectile system utilizing ParticleEmitters to visualize the projectile. 
- Scales easily with Roblox's graphical settings.
+ A modular, open-source, Proof-of-concept roblox projectile system utilizing ParticleEmitters as a graphical visualization
+ Scales easily with Roblox's graphic settings.
  
-# Installation
- 1. Open model located in /rbx with Roblox Studio
- 2. Place the main folder named "Keep in ServerScriptService in ServerScriptService. It will automatically insert the needed objects into their respective places
 
-# Use
+# Getting Started
 
-# Creating custom tools
-Creating custom tools with this module only requires a couple things:
-1. 2 Sound instances, "Fire" and "Reload" located directly under the tool. These sounds will be played respectively when it is "fired" and "reloaded"
-2. A single script instance to reference the main module
-3. A copy of the "BarrelParticle" BasePart instance located under Assets/FX. Place this somewhere on your weapon where you want the muzzle and bullet particle effects to emit from
-4. Listing weapon damage values under Data.ServerScriptService.GunsHandler, if this is not done, a default damage value will be used.
- - Damage values are stored in an Dictionary-like array named `damagetable` located on line 1. Refer to the example listing for a reference on how to properly input into it.
-5. 3 Animation instances, named appropriately under Data.ServerScriptService.Assets.Animations. Your weapon will have an animation for:
- - Equipping, named "Equip[name of your weapon]"
- - Firing, named "[name of your weapon]Fire"
- - Reloading, named "[name of your weapon]Reload"
-6. A BasePart within your tool named specifically "Handle". This is the basis for which the weapon will be oriented.
- Please refer to the module reference as well as the example tool located under Data.ExampleWeapons for further information
-Note: This module does not handle "attachments" or "weld" Roblox objects, so be sure to take care of that yourself if you need to.
+  Let's get started with a guide on setting up your first weapon with this module
 
-# Custom Camera Control
-This uses its own camera handler, which uses a third person camera mode which locks the cursor to the center of the screen. You can disable this camera control by disabling `CameraHandler` located in Data.StarterPlayer.StarterCharacterScripts.
+## Initializing serverside
+  In order for this module to operate, server-side functionality must be enabled. You can do this by calling `Module:InitServer()` from a server-side `Script` instance.
+  ```lua
+  Module:InitServer()
+  ```
+  To configure sounds, particles, and damage values, See `Module:CreateParticleProfile()`
 
-Note: This also disables camera recoil effects. To utilize your own, there is a way to do so:
-4 Values are located under Data.StarterPlayer.StarterCharacterScripts.LocalFX:
-`CamRecoil`: A CFrameValue Instance which will change its value according to recoil values from the main module. You can use this information for your own camera uses as rotation values.
-`CamShake`: A Vector3Value Instance which will change its value according to shake values from the main module. You can use this information for your own camera uses to shake the camera.
-`Recoil`: A BoolValue Instance indicating whether the camera should be experiencing recoil
-`Shaking`:A BoolValue Instance indicating whether the camera should be experiencing shake
+## Setting Up clientside
+  First, in order for this module to function as expected, you'll need 2 things.
+  1.) A `BasePart` named `BarrelParticle` located within the tool.
+    This will be where the graphical effects will originate from, so make sure it's somewhere that looks good.
+  2.) A fully initialized `ParticleProfile` instance
 
-# Killfeed
-When a player inflicts damage on another player, an ObjectValue Instance named "creator" is placed in the damaged player's Humanoid, with the value referencing the character who caused the damage. This can be used as assistance in keeping track of player damages.
+  ### Word of note
+    Do note that this module *does not* handle attachment systems for `BasePart`-like instances (Welds,  Attatchments, etc)
+
+  We can initialize our tool by using the `:initClient()` method.
+  `ParticleProfile` instances are all based off of a default instance- "Bullet" we can use that to initialize our gun with minimal setup.
+  In a LocalScript,
+  ```lua
+  GunHandler:initClient("Bullet", game.Players.LocalPlayer.Backpack:WaitForChild("ExampleGunLocation"))
+  ```lua
+  
+
+  
+# API Reference
+
+## Instances
+
+`Object:` SettingsObject
+An object further detailing the global behavior of a tool
+<details>
+<summary> Information </summary>
+
+## Properties
+<details>
+
+  `String:` Tool
+   The `Tool` or `HopperBin` being used with this SettingsObject
+
+  `Bool:` Auto
+    Whether or not the tool requires additional mouseclicks to fire consecutively
+
+  `Number:` MaxAmmo
+     The max amount of shots before the user must "reload"
+
+  `Number:` Ammo
+    The amount of ammo currently in the clip/magazine, usually set the same as MaxAmmo
+  
+  `Number:` Stored
+    The pool of ammo the weapon "reloads" from. When reloading, `MaxAmmo` is subtracted from `Stored`, and `Ammo` is set to `MaxAmmo`
+  
+  `Number:` FireRate
+    The amound of time in seconds after firing until the tool can be fired again
+  
+  `Number:` Spread
+    Hidden. Indicates the probabilic accuracy of the tool. Increases by `BulletSpread` every time the tool is fired, and returns to 0 after `CoolDown` seconds
+
+  `Number:` CoolDown
+    The amount of time in seconds after firing where `Spread` returns to the minimum value
+
+  `Number:` MaxSpread
+    The maximum value `Spread` can reach
+  
+  `Number:` Burst
+    The number of projectiles per click.
+  
+  `Number:` BulletSpread
+    The amount `Spread` increases by each time the tool is fired
+  
+  `Bool:` Shotgun
+    Whether to operate in a shotgun-like fashion. `Burst` indicates how many projectiles to use per shot.
+
+  `String:` Particle
+    The name of the `ParticleProfile` instance ued with the tool.
+
+  `Number:` Recoil
+    How intense the camera recoil effect is. Setting this to 0 will disable the camera recoil effect.
+
+  `String:` ReticleImage
+    A string in the format of an [Asset Link](https://create.roblox.com/docs/projects/assets) which would be the image of the UI reticle
+
+  `Number:`LastFIred
+    A number in the format of Lua's [os.clock](https://create.roblox.com/docs/reference/engine/libraries/os#clock) indicating the last time the tool was fired.
+
+  `Object:` Animations
+    An object describing the animations that will play when a specific action is done.
+    <details>
+    <summary> Information </summary>
+      `String:` Equip
+        A string in the format of an [Asset Link](https://create.roblox.com/docs/projects/assets) which would be an animation that would play while the weapon is equipped.
+      `String:` Fire
+        A string in the format of an [Asset Link](https://create.roblox.com/docs/projects/assets) which would be an animation that would play when the weapon is fired. 
+      `String:` Reload
+        A string in the format of an [Asset Link](https://create.roblox.com/docs/projects/assets) which would be an animation that would play when the weapon is reloaded. 
+    </details>
+
+</details>
 
 
-# Instances
-*Variant* `initGun(*Object* parent, *String* guntype, *Bool* auto, *Number* maxammo, *Number* Ammo, *Number* stored, *Int* firerate, *Int* cooldown, *Number* burst, *Variant* bulletspread, *Bool* shotgun)`
-Initializes and runs the tool, runs on instantiation. Returned by `require(game.ReplicatedStorage.Assets.Modules.GunHandlerModule)`
-- `parent`: should be a Tool Instance
-- `guntype`: This is used for referencing animations and damage values. This is usually the name of the weapon as defined under Use (Step 4 and 5). But you can set it to anything to set up a single animation and single damage values for multiple tools.
-- `auto`: This should be either `true` or `false`. Configures whether the tool fires in "full auto" or "single fire"
-- `maxammo`: Should be a whole number. the max amount of shots before the user must "reload"
-- `ammo`: Should be a whole number. the amount of ammo in the clip/magazine when it is equipped, usually set the same as `maxammo`
-- `stored`: Should be a whole number. The amount of ammo the weapon comes with in total. (use math.large for infinite)
-- `firerate`: Should be a non-zero positive integer. How fast the tool can be "fired"
-- `cooldown`: Should be a non-zero positive integer. The amount of time after shots before the bullet spread returns to 0
-- `burst`: Should be a non-zero positive whole number. This number dictates how many projectiles to fire per "click". In "shotgun" applications, this dictates how many projectiles in the slug.
-- `bulletspread`: Optional. Dictates how accurate the weapon is over consecuive shots. Should be `math.random()` with a number range. See Lua's API reference for details on `math.random`. Defaults to `math.random(1,2)` if left `nil`.
-- `shotgun`: Optional, defaults to `false`. Determines whether or not to operate in a "scatter gun" like fashion.
+`Object:` ParticleProfile
+An object describing each graphical facet of a projectile
+<details>
+<summary> Information </summary>
+
+## Properties
+
+<details>
+
+`Object:` PrimaryParticle
+This property describes the "projectile" which would be "fired" from the tool. This object has properties analogous to Roblox's [ParticleEmitter](https://create.roblox.com/docs/reference/engine/classes/ParticleEmitter)
+
+`Object:` SecondaryParticle
+This property describes the "muzzle flash" which would be centered around the barrel of the tool. This object has properties analogous to Roblox's [ParticleEmitter](https://create.roblox.com/docs/reference/engine/classes/ParticleEmitter)
+
+`Object:` PointLight
+This property describes the PointLight which would flash when the tool is "fired".  This object has properties analogous to Roblox's [PointLight](https://create.roblox.com/docs/reference/engine/classes/PointLight)
+
+`SettingsObject:` LocalSettings
+This property contains a `SettingsObject` instance, which dictates multiple aspects of the weapon using the ParticleProfile Instance
+
+`Number:` Damage
+How much damage each particle does to players
+
+`Object:` Sound
+ This property defines what sounds will play when using this particle.
+ <details>
+  <summary>Properties</summary>
+
+  `Table:` ricochet
+    A `String` table of roblox [Asset Links](https://create.roblox.com/docs/projects/assets) listing sounds that will play when a particle hits a non-player object
+  
+  `Table:` impact
+    A `String` table of roblox [Asset Links](https://create.roblox.com/docs/projects/assets) listing sounds that will play when a particle hits a player object
+
+  `String:` fire
+    A roblox [Asset Link](https://create.roblox.com/docs/projects/assets) of a sound that will play when a tool utilizing this particle "fires"
+
+  `String:` reload
+    A roblox [Asset Link](https://create.roblox.com/docs/projects/assets) of a sound that will play when a tool utilizing this particle "reloads"
+    </details>
+
+  `String:`LocalSettings
+   a SettingsObject describing additional behavior for the tool using this ParticleObject
+</details>
+
+</details>
+
+
+## Methods
+<details>
+
+  
+
+  `ParticleProfile:` CreateParticleProfile(`String:` name)
+    Returns a new ParticleProfile instance
+
+  `void:` InitServer()
+    Initializes the server listener.
+    Must be called from a `Script` instance for this module to function.
+
+  `void:` initClient(`String:` Particle, `Variant`: Tool)
+   Initializes the client, using the ParticleProfile instance named `Particle` and using the `Tool` or `HopperBin` instance `Tool`
+
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
 
  
