@@ -160,13 +160,15 @@
   
 
  #### `ParticleProfile:` CreateParticleProfile(`String:` name)
-    Returns a new ParticleProfile instance
+  Returns a new ParticleProfile instance
 
 ####  `void:` InitServer()
-    Initializes the server listener.
-    Must be called from a `Script` instance for this module to function.
+    
+<p> Initializes the server listener.
+    Must be called from a Script for this module to function. </p>
 
  #### `void:` initClient(`String:` Particle, `Variant`: Tool)
+
    Initializes the client, using the ParticleProfile instance named `Particle` and using the `Tool` or `HopperBin` instance `Tool`
 
 
