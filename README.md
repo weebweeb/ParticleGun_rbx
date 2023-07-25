@@ -39,11 +39,10 @@
   
 
   
-# API Reference
 
 ## Instances
 
-### `Object:` SettingsObject
+#### `Object:` SettingsObject
 <p> An object further detailing the global behavior of a tool </p>
 <details>
 <summary>Properties</summary>
@@ -111,7 +110,7 @@
 </details>
 
 
-### `Object:` ParticleProfile
+#### `Object:` ParticleProfile
 <p> An object describing each graphical facet of a projectile </p>
 
 <details>
@@ -157,21 +156,18 @@
 
 
 ## Methods
-<details>
 
   
 
- ### `ParticleProfile:` CreateParticleProfile(`String:` name)
+ #### `ParticleProfile:` CreateParticleProfile(`String:` name)
     Returns a new ParticleProfile instance
 
-###  `void:` InitServer()
+####  `void:` InitServer()
     Initializes the server listener.
     Must be called from a `Script` instance for this module to function.
 
- ### `void:` initClient(`String:` Particle, `Variant`: Tool)
+ #### `void:` initClient(`String:` Particle, `Variant`: Tool)
    Initializes the client, using the ParticleProfile instance named `Particle` and using the `Tool` or `HopperBin` instance `Tool`
-
-</details>
 
 
 
