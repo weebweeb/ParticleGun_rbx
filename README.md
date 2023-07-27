@@ -1,8 +1,11 @@
 # Abstract
- A modular, open-source, Proof-of-concept roblox projectile system utilizing ParticleEmitters as a graphical visualization
- Scales easily with Roblox's graphic settings.
+ A modular, open-source, Proof-of-concept roblox projectile system utilizing ParticleEmitters as a graphical visualization. 
+ <p> Scales easily with Roblox's graphic settings.</p>
  
 This module uses Roblox's <a href="https://create.roblox.com/docs/reference/engine/classes/ParticleEmitter">ParticleEmitter</a> instance to simulate a projectile moving through the air, while the damage calculations are done with a <a href="https://create.roblox.com/docs/reference/engine/datatypes/Ray">Ray</a>. This is both simpler and faster than any method done in traditional Lua to simulate projectiles. However, the downside is that LOD and performance options are out of our control, managed by the game engine internals. This means at lower graphic quality levels, some or all projectiles may not be visible. 
+
+![RobloxStudioBeta_qObwz0E0Ab](https://github.com/weebweeb/ParticleGun_rbx/assets/20445961/58225757-f0ee-479b-ab7c-3927336ffa8d)
+
  
 By allowing ParticleEmitters to emit at a certain rate, we can generate single "particle" images, which move toward our designated target at our specified velocity and rate.
 
