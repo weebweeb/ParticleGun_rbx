@@ -6,9 +6,12 @@ This module uses Roblox's <a href="https://create.roblox.com/docs/reference/engi
  
 By allowing ParticleEmitters to emit at a certain rate, we can generate single "particle" images, which move toward our designated target at our specified velocity and rate.
 
-# Tutorials
-<detals>
+# Usage
+
+<details>
+ 
 <summary>Setting up a basic weapon</summary>
+ 
   Let's get started with a guide on setting up a basic weapon with this module
 
 ## Initializing serverside
@@ -41,10 +44,11 @@ By allowing ParticleEmitters to emit at a certain rate, we can generate single "
   Module:initClient("Bullet", game.Players.LocalPlayer.Backpack:WaitForChild("ExampleGunLocation"))
   ```
   This will initialize our tool located at `game.Players.LocalPlayer.Backpack:WaitForChild("ExampleGunLocation")` with the default ParticleProfile object.
+  
 </details>
 
 <details>
- <summary>Creating a custom ParticleProfile</summary>
+ <summary>Customizing a new weapon</summary>
 <p>In order to create new tools and particle effects, we must first create a new ParticleProfile instance.</p>
 We can instantiate a new ParticleProfile instance by calling <a href = "https://github.com/weebweeb/ParticleGun_rbx#particleprofile-createparticleprofilestring-name">CreateParticleProfile()</a>
 
