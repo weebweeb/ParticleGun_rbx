@@ -56,22 +56,27 @@ By allowing ParticleEmitters to emit at a certain rate, we can generate single "
 We can instantiate a new ParticleProfile instance by calling <a href = "https://github.com/weebweeb/ParticleGun_rbx#particleprofile-createparticleprofilestring-name">CreateParticleProfile()</a>
 
 <p>Let's create a new ParticleProfile instance called "Test"</p>
+
 ```lua
 local TestParticle = Module:CreateParticleProfile("Test")
 ```
-<p>This both returns to us our new ParticleProfile instance, and adds itself to an internal database, to be referenced by its name- "Test"
-ParticleProfile instances contain many variables and settings used to control the behavior and appearance of both the weapon firing it as well as the projectile.</p>
-<p>Let's go ahead and change how the particle behaves</p>
+<p>This both returns to us our new ParticleProfile instance, and adds itself to an internal database, to be referenced by its name- "Test"</p>
+<p>ParticleProfile instances contain many variables and settings used to control the behavior and appearance of both the weapon firing it as well as the projectile.</p>
+<p>Let's go ahead and change how the particle behaves.</p>
 <p>
-our particle appearance has 3 components:
-- PrimaryParticle - This is the ParticleEmitter that acts as the "projectile"
-- SecondaryParticle - This is the ParticleEmitter that promotes a "muzzle flash"-like effect
-- PointLight - This instance is a PointLight which generates light when the weapon is fired
-</p>
-<p>Let's go ahead and change our PrimaryParticle's Texture</p>
+Our particle appearance has 3 components:</p>
+<ul>
+ <li>PrimaryParticle - This is the ParticleEmitter that acts as the "projectile"</li>
+<li>SecondaryParticle - This is the ParticleEmitter that promotes a "muzzle flash"-like effect</li>
+<li>PointLight - This instance is a PointLight which generates light when the weapon is fired</li>
+</ul>
+
+<p>Let's go ahead and change our PrimaryParticle's Texture.</p>
+
 ```lua
 AutoParticle.PrimaryParticle.Texture = "rbxassetid://1266170131"
 ```
+
 and that's it! These appearance options were put together to maximize utility and ease of use, so feel free to check out the documentation in this document.
 
 </details>
