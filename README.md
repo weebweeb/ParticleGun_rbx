@@ -2,10 +2,14 @@
  A modular, open-source, Proof-of-concept roblox projectile system utilizing ParticleEmitters as a graphical visualization
  Scales easily with Roblox's graphic settings.
  
+This module uses Roblox's <a href="https://create.roblox.com/docs/reference/engine/classes/ParticleEmitter">ParticleEmitter</a> instance to simulate a projectile moving through the air, while the damage calculations are done with a <a href="https://create.roblox.com/docs/reference/engine/datatypes/Ray">Ray</a>. This is both simpler and faster than any method done in traditional Lua to simulate projectiles. However, the downside is that LOD and performance options are out of our control, managed by the game engine internals. This means at lower graphic quality levels, some or all projectiles may not be visible. 
+ 
+By allowing ParticleEmitters to emit at a certain rate, we can generate single "particle" images, which move toward our designated target at our specified velocity and rate.
 
-# Getting Started
-
-  Let's get started with a guide on setting up your first weapon with this module
+# Tutorials
+<detals>
+<summary>Setting up a basic weapon</summary>
+  Let's get started with a guide on setting up a basic weapon with this module
 
 ## Initializing serverside
   <p>In order for this module to operate, server-side functionality must be enabled. </p>
@@ -34,9 +38,36 @@
   
   ```lua
    --In a LocalScript,
-  GunHandler:initClient("Bullet", game.Players.LocalPlayer.Backpack:WaitForChild("ExampleGunLocation"))
+  Module:initClient("Bullet", game.Players.LocalPlayer.Backpack:WaitForChild("ExampleGunLocation"))
   ```
-  
+  This will initialize our tool located at `game.Players.LocalPlayer.Backpack:WaitForChild("ExampleGunLocation")` with the default ParticleProfile object.
+</details>
+
+<details>
+ <summary>Creating a custom ParticleProfile</summary>
+<p>In order to create new tools and particle effects, we must first create a new ParticleProfile instance.</p>
+We can instantiate a new ParticleProfile instance by calling <a href = "https://github.com/weebweeb/ParticleGun_rbx#particleprofile-createparticleprofilestring-name">CreateParticleProfile()</a>
+
+<p>Let's create a new ParticleProfile instance called "Test"</p>
+```lua
+local TestParticle = Module:CreateParticleProfile("Test")
+```
+<p>This both returns to us our new ParticleProfile instance, and adds itself to an internal database, to be referenced by its name- "Test"
+ParticleProfile instances contain many variables and settings used to control the behavior and appearance of both the weapon firing it as well as the projectile.</p>
+<p>Let's go ahead and change how the particle behaves</p>
+<p>
+our particle appearance has 3 components:
+- PrimaryParticle - This is the ParticleEmitter that acts as the "projectile"
+- SecondaryParticle - This is the ParticleEmitter that promotes a "muzzle flash"-like effect
+- PointLight - This instance is a PointLight which generates light when the weapon is fired
+</p>
+<p>Let's go ahead and change our PrimaryParticle's Texture</p>
+```lua
+AutoParticle.PrimaryParticle.Texture = "rbxassetid://1266170131"
+```
+and that's it! These appearance options were put together to maximize utility and ease of use, so feel free to check out the documentation in this document.
+
+</details>
 
   
 
