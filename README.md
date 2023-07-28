@@ -9,6 +9,19 @@ This module uses Roblox's <a href="https://create.roblox.com/docs/reference/engi
  
 By allowing ParticleEmitters to emit at a certain rate, we can generate single "particle" images, which move toward our designated target at our specified velocity and rate.
 
+# Installation
+
+## Wally
+If you're using Wally, include
+```
+ParticleGun = "weebweeb/particlegun@^0.1.0"
+```
+under your dependancies in your project's `wally.toml`
+
+## Manually
+You can also download the recent release <a href = "https://github.com/weebweeb/ParticleGun_rbx/releases/tag/Release">here</a>. 
+Open the `rbxm` file in Roblox Studio and place the ModuleScript wherever is most convenient for your workflow, or download the source to use wherever else you might want it.
+
 # Usage
 
 <details>
