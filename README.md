@@ -106,25 +106,25 @@ and that's it! These appearance options were put together to maximize utility an
     <p>The pool of ammo the weapon "reloads" from. When reloading, `MaxAmmo` is subtracted from `Stored`, and `Ammo` is set to `MaxAmmo`. Default is <a href ="https://create.roblox.com/docs/reference/engine/libraries/math#huge">math.huge</a> </p>
   
   `Number:` FireRate
-   <p> The amound of time in seconds after firing until the tool can be fired again. Default is 0.15 </p>
+   <p> The amound of time in seconds after firing until the tool can be fired again. Default is <code>0.15</code> </p>
   
   `Number:` Spread
-   <p> Hidden. Indicates the probabilic accuracy of the tool. Increases by `BulletSpread` every time the tool is fired, and returns to 0 after `CoolDown` seconds</p>
+   <p> Hidden. Indicates the probabilic accuracy of the tool. Increases by <code>BulletSpread</code> every time the tool is fired, and returns to 0 after <code>CoolDown</code> seconds</p>
 
   `Number:` CoolDown
-    <p>The amount of time in seconds after firing where `Spread` returns to the minimum value. Default is `1` </p>
+    <p>The amount of time in seconds after firing where `Spread` returns to the minimum value. Default is `1`  </p>
 
   `Number:` MaxSpread
-   <p> The maximum value `Spread` can reach. Default is `50`</p>
+   <p> The maximum value <code>Spread</code> can reach. Default is <code>50</code></p>
   
   `Number:` Burst
-   <p> The number of projectiles per click. Default is `1` </p>
+   <p> The number of projectiles per click. Default is <code>1</code> </p>
   
   `Number:` BulletSpread
     <p>The amount `Spread` increases by each time the tool is fired. Default is <a href="https://create.roblox.com/docs/reference/engine/libraries/math#random">math.random</a>(1,3) </p>
   
   `Bool:` Shotgun
-   <p> Whether to operate in a shotgun-like fashion. `Burst` indicates how many projectiles to use per shot. Default is `false` </p>
+   <p> Whether to operate in a shotgun-like fashion. <code>Burst</code> indicates how many projectiles to use per shot. Default is <code>false</code> </p>
 
   `String:` Particle
     <p>The name of the `ParticleProfile` instance ued with the tool.</p>
@@ -183,7 +183,7 @@ and that's it! These appearance options were put together to maximize utility an
     <p> A `String` table of roblox <a href= "https://create.roblox.com/docs/projects/assets">Asset Links</a> listing sounds that will play when a particle hits a non-player object</p>
   
   `Table:` impact
-   <p> A `String` table of roblox <a href= "https://create.roblox.com/docs/projects/assets">Asset Links</a> listing sounds that will play when a particle hits a player object</p>
+   <p> A <code>String</code> table of roblox <a href= "https://create.roblox.com/docs/projects/assets">Asset Links</a> listing sounds that will play when a particle hits a player object</p>
 
   `String:` fire
     <p> A roblox <a href= "https://create.roblox.com/docs/projects/assets">Asset Link</a> of a sound that will play when a tool utilizing this particle "fires" </p>
