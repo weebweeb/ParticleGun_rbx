@@ -145,6 +145,9 @@ and that's it! These appearance options were put together to maximize utility an
   `Number:` Recoil
     <p>How intense the camera recoil effect is. Setting this to 0 will disable the camera recoil effect. Default is `1.5` </p>
 
+  `Number:` Distance
+    <p>The distance in <a href="https://create.roblox.com/docs/physics/units">Studs</a> that the weapon can damage players. Default is <code>2000</code> </p>
+
   `String:` ReticleImage
     <p>A string in the format of an <a href= "https://create.roblox.com/docs/projects/assets">Asset Link</a> which would be the image of the UI reticle</p>
 

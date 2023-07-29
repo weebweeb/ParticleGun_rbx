@@ -92,6 +92,7 @@ ParticleEffects = {
 			["Particle"] = "Bullet",
 			["Recoil"] = 1.5,
 			["ReticleImage"] = "rbxassetid://4766006616",
+			["Distance"] = 2000,
 			["LastFired"] = os.clock(),
 			["Animations"] = {
 				Equip = "rbxassetid://4752476241",
@@ -287,8 +288,7 @@ function Module:InitServer()
 				MakeSound(SoundReference.fire, Where, 0.2, (math.random(97,102)/100))
 
 
-				local length = 2000
-				local ray = Ray.new(Where.Parent.Head.Position, (UnitRay.Direction  + (Right* Cone(2, Tracker.BulletSpread, Tracker.Shotgun))) * length)
+				local ray = Ray.new(Where.Parent.Head.Position, (UnitRay.Direction  + (Right* Cone(2, Tracker.BulletSpread, Tracker.Shotgun))) * Tracker.Distance)
 				local findparts, hitposition = workspace:FindPartOnRayWithIgnoreList(ray, Player.Character:GetDescendants())
 
 				local distt = (Player.Character.HumanoidRootPart.Position - hitposition).Magnitude
