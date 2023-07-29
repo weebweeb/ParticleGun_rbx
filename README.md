@@ -41,13 +41,17 @@ Open the `rbxm` file in Roblox Studio and place the ModuleScript wherever is mos
   <p>To configure sounds, particles, and damage values, See <a href = "https://github.com/weebweeb/ParticleGun_rbx#particleprofile-createparticleprofilestring-name">CreateParticleProfile()</a> </p>
 
 ## Setting Up clientside
-<p> First, in order for this module to function as expected, you'll need 2 things.</p>
+<p> First, in order for this module to function as expected, you'll need 3 things.</p>
 
    1.) A <a href = "https://create.roblox.com/docs/reference/engine/classes/BasePart">BasePart</a> named `BarrelParticle` located within the Tool.
    
    <p>This will be where the graphical effects will originate from, so make sure it's somewhere that looks good.</p>
    
   2.) A fully initialized <a href = "https://github.com/weebweeb/ParticleGun_rbx#object-particleprofile">ParticleProfile</a> instance
+
+  3.) A <a href = "https://create.roblox.com/docs/reference/engine/classes/BasePart">BasePart</a> named `Handle` located within the Tool.
+      <p>This will where the player will hold the tool, so make sure it's somewhere that makes sense.</p>
+
 
   ### Word of note
    Do note that this module *does not* handle attachment systems for <a href="https://create.roblox.com/docs/reference/engine/classes/BasePart">BasePart</a>-like instances (<a href="https://create.roblox.com/docs/reference/engine/classes/Weld">Welds</a>,  <a href="https://create.roblox.com/docs/reference/engine/classes/Attachment">Attatchments</a>, etc)
