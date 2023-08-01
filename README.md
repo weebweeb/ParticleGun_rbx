@@ -14,7 +14,7 @@ By allowing ParticleEmitters to emit at a certain rate, we can generate single "
 ## Wally
 If you're using Wally, include
 ```
-ParticleGun = "weebweeb/particlegun@^0.1.3"
+ParticleGun = "weebweeb/particlegun@^0.1"
 ```
 under your dependancies in your project's `wally.toml`
 
