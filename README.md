@@ -16,7 +16,7 @@ If you're using Wally, include
 ```
 ParticleGun = "weebweeb/particlegun@^0.1"
 ```
-under your dependancies in your project's `wally.toml`
+under your dependencies in your project's `wally.toml`
 
 ## Manually
 You can also download the recent release <a href = "https://github.com/weebweeb/ParticleGun_rbx/releases/tag/Release">here</a>. 
