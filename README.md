@@ -68,7 +68,7 @@ Open the `rbxm` file in Roblox Studio and place the ModuleScript wherever is mos
 </details>
 
 <details>
- <summary>Customizing a new weapon</summary>
+ <summary>Creating a new custom weapon</summary>
 <p>In order to create new tools and particle effects, we must first create a new ParticleProfile instance.</p>
 We can instantiate a new ParticleProfile instance by calling <a href = "https://github.com/weebweeb/ParticleGun_rbx#particleprofile-createparticleprofilestring-name">CreateParticleProfile()</a>
 
