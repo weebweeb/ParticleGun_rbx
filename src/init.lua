@@ -219,7 +219,7 @@ function Module:InitServer()
 		for i, v in pairs(Particles) do
 			v.Enabled = true
 		end
-		wait(0.1)
+		task.wait(0.1)
 		Main.Remove()
 		game.Debris:AddItem(Part, 0.5)
 		
@@ -254,11 +254,11 @@ function Module:InitServer()
 
 		if Shotgun ~= true then
 			if Rate ~= nil then
-				wait(Rate - 0.01)
+				task.wait(Rate - 0.01)
 			else
-				wait(0.15)
+				task.wait(0.15)
 			end
-		else wait(0.05)
+		else task.wait(0.05)
 		end
 		
 		for i, v in pairs(FX) do
@@ -283,7 +283,7 @@ function Module:InitServer()
 			coroutine.wrap(function()
 				
 				if Tracker.FireRate > 0 and i > 1 and Tracker.Shotgun == false and Tracker.Burst > 1 then
-					wait(Tracker.FireRate*(i-1))
+					task.wait(Tracker.FireRate*(i-1))
 				end
 				MakeSound(SoundReference.fire, Where, 0.2, (math.random(97,102)/100))
 
@@ -506,7 +506,7 @@ function Module:initClient(Particle, Tool)
 			ReloadGunAnimation:Play()
 			game.ReplicatedStorage.FireGun:FireServer(Setting.Tool, nil, 0, nil, GameSettings.SavedQualityLevel.Value, Setting.Ammo)
 
-			wait(ReloadGunAnimation.Length or 1)
+			task.wait(ReloadGunAnimation.Length or 1)
 			FiringGun = false
 			Reloading = false
 			local oldstored = Setting.Stored
@@ -551,7 +551,7 @@ function Module:initClient(Particle, Tool)
 					local UnitRay = Camera:ScreenPointToRay((InputPosition.X + 10)+ math.random(1, Spread)/10, (InputPosition.Y +10) + math.random(1, Spread)/10 , InputPosition.Z + math.random(1, Spread)/10)
 					game.ReplicatedStorage.FireGun:FireServer(Setting.Tool, UnitRay, Camera.CFrame.RightVector, Setting.Particle, GameSettings.SavedQualityLevel.Value, Setting.Ammo)
 					if Setting.Shotgun then
-						wait(FireGunAnimation.Length or 2)
+						task.wait(FireGunAnimation.Length or 2)
 					end
 					FiringGun = false
 
@@ -570,7 +570,7 @@ function Module:initClient(Particle, Tool)
 								Fire(InputPosition)
 							end
 						end
-						wait(Setting.FireRate)
+						task.wait(Setting.FireRate)
 
 					end
 				end)()
