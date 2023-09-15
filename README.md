@@ -14,9 +14,9 @@ By allowing ParticleEmitters to emit at a certain rate, we can generate single "
 ## Wally
 If you're using Wally, include
 ```
-ParticleGun = "weebweeb/particlegun@^0.1.3"
+ParticleGun = "weebweeb/particlegun@^0.1"
 ```
-under your dependancies in your project's `wally.toml`
+under your dependencies in your project's `wally.toml`
 
 ## Manually
 You can also download the recent release <a href = "https://github.com/weebweeb/ParticleGun_rbx/releases/tag/Release">here</a>. 
@@ -68,7 +68,7 @@ Open the `rbxm` file in Roblox Studio and place the ModuleScript wherever is mos
 </details>
 
 <details>
- <summary>Customizing a new weapon</summary>
+ <summary>Creating a new custom weapon</summary>
 <p>In order to create new tools and particle effects, we must first create a new ParticleProfile instance.</p>
 We can instantiate a new ParticleProfile instance by calling <a href = "https://github.com/weebweeb/ParticleGun_rbx#particleprofile-createparticleprofilestring-name">CreateParticleProfile()</a>
 
