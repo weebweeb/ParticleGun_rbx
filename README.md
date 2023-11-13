@@ -2,7 +2,7 @@
  A modular, open-source, Proof-of-concept roblox projectile system utilizing ParticleEmitters as a graphical visualization. 
  <p> Scales easily with Roblox's graphic settings.</p>
  
-This module uses Roblox's <a href="https://create.roblox.com/docs/reference/engine/classes/ParticleEmitter">ParticleEmitter</a> instance to simulate a projectile moving through the air, while the damage calculations are done with a <a href="https://create.roblox.com/docs/reference/engine/datatypes/Ray">Ray</a>. This is both a simpler and efficient way to simulate projectiles in the game engine. However, the downside is that LOD and performance options are out of our control, managed by the game engine internals. This means at lower graphic quality levels, some or all projectiles may not be visible. 
+This module uses Roblox's <a href="https://create.roblox.com/docs/reference/engine/classes/ParticleEmitter">ParticleEmitter</a> instance to simulate a projectile moving through the air, while the damage calculations are done with a <a href="https://create.roblox.com/docs/reference/engine/datatypes/Ray">Ray</a>. This is both a simple and efficient way to simulate projectiles in the game engine. However, LOD and performance options are out of our control, managed by the game engine internals. This means at lower graphic quality levels, some or all projectiles may not be visible. 
 
 ![RobloxStudioBeta_qObwz0E0Ab](https://github.com/weebweeb/ParticleGun_rbx/assets/20445961/58225757-f0ee-479b-ab7c-3927336ffa8d)
 
