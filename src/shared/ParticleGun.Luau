@@ -2,120 +2,21 @@ local Module = {}
 
 PlayerTracker = {}
 
-ParticleEffects = {
-	["Blood"] = {
-		PrimaryParticle = {
-			RotSpeed = NumberRange.new(2);
-			Color = ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(53/85,2/51,2/51)),ColorSequenceKeypoint.new(1,Color3.new(37/85,2/85,2/85))});
-			Rate = 100;
-			VelocitySpread = 1;
-			Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0.5,0),NumberSequenceKeypoint.new(1,0.5,0)});
-			Lifetime = NumberRange.new(1);
-			Speed = NumberRange.new(1);
-			Texture = "http://www.roblox.com/asset/?id=87773150";
-			SpreadAngle = Vector2.new(1,100);
-			Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0.8999999761581421,0),NumberSequenceKeypoint.new(1,0.8999999761581421,0)});
-		}
-	},
-	["Sparks"] = {
-		PrimaryParticle = {
-			Acceleration = Vector3.new(0,-22,0);
-			Color = ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(1,40/51,0)),ColorSequenceKeypoint.new(1,Color3.new(1,1,52/255))});
-			ZOffset = 2;
-			VelocitySpread = 30;
-			Texture = "http://www.roblox.com/asset/?id=134531274";
-			Lifetime = NumberRange.new(1.5,3);
-			Speed = NumberRange.new(10,17);
-			LightEmission = 3;
-			Rate = 5;
-			SpreadAngle = Vector2.new(30,30);
-			Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0.18750011920928955,0.12499988079071045),NumberSequenceKeypoint.new(1,0,0)});
-		}	
-	},
-	["Bullet"] = {
-		PrimaryParticle = {
-		Enabled = false;
-		Color = ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(1,83/85,52/255)),ColorSequenceKeypoint.new(1,Color3.new(1,83/85,52/255))});
-		Rate = 10;
-		VelocitySpread = 1;
-		EmissionDirection = Enum.NormalId.Bottom;
-		Texture = "rbxassetid://3077044894";
-		Name = "Bullet";
-		Lifetime = NumberRange.new(500);
-		Speed = NumberRange.new(1);
-		LightEmission = 1;
-		SpreadAngle = Vector2.new(1,2);
-			Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0.25,0),NumberSequenceKeypoint.new(1,0.25,0)});
-		},
-		SecondaryParticle = {
-			Enabled = false;
-			RotSpeed = NumberRange.new(90);
-			Color = ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(1,1,178/255)),ColorSequenceKeypoint.new(1,Color3.new(1,1,178/255))});
-			LockedToPart = true;
-			Rate = 40;
-			VelocitySpread = 50;
-			EmissionDirection = Enum.NormalId.Right;
-			Texture = "rbxassetid://875750999";
-			LightEmission = 1;
-			Lifetime = NumberRange.new(0.800000011920929);
-			Speed = NumberRange.new(0);
-			Rotation = NumberRange.new(90);
-			SpreadAngle = Vector2.new(50,50);
-			Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0.30000001192092896,0),NumberSequenceKeypoint.new(1,0.30000001192092896,0)});
-		},
-		PointLight = {
-			Enabled = false;
-			Shadows = true;
-			Color = Color3.new(1,146/255,4/85);
-			Brightness = 100;
-			Range = 3;
-		},
-		Sound = {
-			ricochet = {"rbxassetid://4635371125","rbxassetid://4635372723","rbxassetid://4635372161"},
-			impact = {"rbxassetid://2640195272", "rbxassetid://2640195272"},
-			fire = "rbxassetid://3449328271",
-			reload = "rbxassetid://4648872031"
-		},
-		Damage = 10,
-		LocalSettings = {
-			["Tool"] = nil,
-			["Auto"] = false,
-			["MaxAmmo"] = 20,
-			["Ammo"] = 20,
-			["Stored"] = math.huge,
-			["FireRate"] = 0.15,
-			["CoolDown"] = 1,
-			["MaxSpread"] = 50,
-			["Burst"] = 1,
-			["BulletSpread"] = math.random(1,3),
-			["Shotgun"] = false,
-			["Particle"] = "Bullet",
-			["Recoil"] = 1.5,
-			["ReticleImage"] = "rbxassetid://4766006616",
-			["Distance"] = 2000,
-			["LastFired"] = os.clock(),
-			["Animations"] = {
-				Equip = "rbxassetid://4752476241",
-				Fire = "rbxassetid://4752573333",
-				Reload = "rbxassetid://4752479167",
-			}
-		}
-	}
-		
-}
+ParticleProfile = require(script.Parent.ParticleProfile)
 
 local function RecursiveClone(obj)
 	if type(obj) ~= 'table' then return obj end
 	local res = {}
-	for k, v in pairs(obj) do res[RecursiveClone(k)] = RecursiveClone(v) end
+	for k, v in pairs(obj) do
+		res[RecursiveClone(k)] = RecursiveClone(v)
+	end
 	return res
 end
 
-function Module:CreateParticleProfile(name)
-	local NewParticle = RecursiveClone(ParticleEffects.Bullet) -- create a functional copy of our base instance
+function Module:CreateParticleProfile(name, primaryEmitter: ParticleEmitter?, secondaryEmitter: ParticleEmitter?)
+	local NewParticle = ParticleProfile.fromEmitter(name, primaryEmitter, secondaryEmitter)
 	NewParticle.LocalSettings.Particle = name
-	ParticleEffects[name] = NewParticle
-	return ParticleEffects[name]
+	return NewParticle
 end
 
 function Module:InitServer()
@@ -143,30 +44,31 @@ function Module:InitServer()
 		end
 	end
 	
-	local function MakeParticles(what, where, Dist)
+	local function MakeParticles(particleName, where, Dist)
 		local FX = {}
 		Dist = Dist or NumberRange.new(50,50)
+		local makeParticle = ParticleProfile.new(particleName)
 		for i = 1, 6 , 1 do
 			local ParticleGen = Instance.new("ParticleEmitter",where)
 			ParticleGen.Enabled = false
-			for i, v in pairs(ParticleEffects[what].PrimaryParticle) do
+			for i, v in pairs(makeParticle.PrimaryParticle) do
 				ParticleGen[i] = v
 			end
-			ParticleGen.Name = "Bullet"
+			ParticleGen.Name = tostring(particleName)
 			table.insert(FX, ParticleGen)
 		end
-		if ParticleEffects[what].SecondaryParticle then
+		if makeParticle.SecondaryParticle then
 			local SecondParticleGen = Instance.new("ParticleEmitter",where)
 			SecondParticleGen.Enabled = false
-			for i, v in pairs(ParticleEffects[what].SecondaryParticle) do
+			for i, v in pairs(makeParticle.SecondaryParticle) do
 				SecondParticleGen[i] = v
 			end
 			table.insert(FX, SecondParticleGen)
 		end
-		if ParticleEffects[what].PointLight then
+		if makeParticle.PointLight then
 			local LightGen = Instance.new("PointLight",where)
 			LightGen.Enabled = false
-			for i, v in pairs(ParticleEffects[what].PointLight) do
+			for i, v in pairs(makeParticle.PointLight) do
 				LightGen[i] = v
 			end
 			table.insert(FX,LightGen)
@@ -186,7 +88,7 @@ function Module:InitServer()
 	end
 
 	local function MakeSparks(Where, Particle)
-		local SoundReference = ParticleEffects[Particle].Sound
+		local SoundReference = ParticleProfile.new(Particle).Sound
 		local Part = Instance.new("Part", workspace); Part.Transparency = 1; Part.CanCollide = false; Part.Anchored = true
 		Part.Position = Where
 		local Main = MakeParticles("Sparks", Part)
@@ -198,6 +100,7 @@ function Module:InitServer()
 		delay(0.07, function() Main.Remove(); game.Debris:AddItem(Part, 0.3) end)
 
 	end
+	
 
 	local function ChangeRate(Rate, Name, Where)
 		for i, v in pairs(Where:GetChildren()) do
@@ -209,7 +112,7 @@ function Module:InitServer()
 	end
 
 	local function MakeBlood(Where, Particle)
-		local SoundReference = ParticleEffects[Particle].Sound
+		local SoundReference = ParticleProfile.new(Particle).Sound
 		local Part = Instance.new("Part", workspace); Part.Transparency = 1; Part.CanCollide = false; Part.Anchored = true
 		Part.Position = Where
 		local Main = MakeParticles("Blood", Part)
@@ -271,7 +174,8 @@ function Module:InitServer()
 
 	local function GunMain(Player, Where, UnitRay, Right, Particle, GraphicSetting, AmmoCount)
 		local Tracker = PlayerTracker[Player.UserId][Where.Name]
-		local SoundReference = ParticleEffects[Tracker.Particle].Sound
+		local TrackerParticle = ParticleProfile.new(Tracker.Particle)
+		local SoundReference = TrackerParticle.Sound
 
 		--print(os.difftime(os.time(), Tracker.LastFired))
 		if UnitRay == nil then MakeSound(SoundReference.reload, Where, 0.2, (math.random(97,102)/100)); Tracker.Ammo = Tracker.MaxAmmo return end
@@ -314,11 +218,11 @@ function Module:InitServer()
 
 					if findparts.Parent:FindFirstChild("Humanoid") then
 						TempTag("ObjectValue", findparts.Parent.Humanoid, "creator", Player.Character)
-						findparts.Parent.Humanoid:TakeDamage(ParticleEffects[Tracker.Particle].Damage)
+						findparts.Parent.Humanoid:TakeDamage(TrackerParticle.Damage)
 					else
 						if findparts.Parent.Parent:FindFirstChild("Humanoid") then -- lazy solution
 							TempTag("ObjectValue", findparts.Parent.Parent.Humanoid, "creator", Player.Character)
-							findparts.Parent.Parent.Humanoid:TakeDamage(ParticleEffects[Tracker.Particle].Damage)
+							findparts.Parent.Parent.Humanoid:TakeDamage(TrackerParticle.Damage)
 
 						end
 					end
@@ -333,11 +237,11 @@ function Module:InitServer()
 		if PlayerTracker[Player.UserId] == nil then
 			PlayerTracker[Player.UserId] = {}
 		end
-		PlayerTracker[Player.UserId][Name] = RecursiveClone(ParticleEffects[ParticleInstance].LocalSettings)
+		PlayerTracker[Player.UserId][Name] = ParticleProfile.new(ParticleInstance).LocalSettings
 	end)
 	
 	local RequestParticleInfoF = function(Player, Particle)
-		if ParticleEffects[Particle] then return ParticleEffects[Particle].LocalSettings end
+		return ParticleProfile.fromEmitter(Particle).LocalSettings
 	end
 	
 	RequestParticleInfo.OnServerInvoke = RequestParticleInfoF
@@ -386,6 +290,7 @@ function Module:initClient(Particle, Tool)
 		local timeStepLength = 0.017
 		local timeLeft = 0
 		local renderSteppedConnection
+		local t = os.clock()
 
 		local function Step()
 			local dt = os.clock() - t
@@ -464,7 +369,7 @@ function Module:initClient(Particle, Tool)
 		ReticleImage.BackgroundTransparency = 1; ReticleImage.Size = UDim2.new(0, 50, 0, 50); ReticleImage.Visible = true;
 		local AmmoText = Instance.new("TextLabel", AmmoCounter); AmmoText.Size = UDim2.new(0.096, 0, 0.086, 0);
 		AmmoText.Position = UDim2.new(0.522, 0.488); AmmoText.BackgroundTransparency = 1; AmmoText.Visible = true;
-		AmmoText.Text = "10|40"; AmmoText.FontSize = Enum.FontSize.Size14; AmmoText.TextScaled = true; AmmoText.TextWrap = true;
+		AmmoText.Text = "10|40"; AmmoText.TextSize = 14; AmmoText.TextScaled = true; AmmoText.TextWrapped = true;
 		AmmoText.Font = Enum.Font.SourceSans; AmmoText.TextStrokeTransparency = 0.4000000059604645; AmmoText.TextWrapped = true;
 		AmmoText.TextColor3 = Color3.new(255,255,255)
 		return function() Gui:Destroy() end
